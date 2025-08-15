@@ -1,4 +1,4 @@
-name: Test Package Installation
+name: Tests
 
 on:
   push:
@@ -32,7 +32,12 @@ jobs:
     - name: Install package
       run: pip install dist/*.whl
     
-    - name: Test import
+    - name: Test basic import
       run: |
         python -c "import phasepack; print('✓ Import successful')"
         python -c "import phasepack; print('Available functions:', phasepack.__all__)"
+    
+    - name: Install test dependencies and run tests
+      run: |
+        pip install pytest pytest-cov
+        python -m pytest -v --cov=phasepack --cov-report=term

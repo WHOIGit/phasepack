@@ -23,5 +23,15 @@ boy
 *.gz
 *.zip
 *.7z
+
+# Coverage files
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+
+# Build artifacts
+*.egg-info/
+
 syntax: regexp
 
