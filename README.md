@@ -19,15 +19,9 @@ For more information on a particular function, see the associated docstring and 
 pip install phasepack
 ```
 
-## Fast(er) Fourier Transforms
+## Fast Fourier Transforms
 
-All of the functions in this module make use of the Fast Fourier Transform (FFT), and their speed significantly depends on the module used to provide FFT functions. If it is available, the [pyFFTW](http://hgomersall.github.io/pyFFTW/) module will be used. This provides Python bindings to the FFTW C library, and is substantially faster than `fftpack`, the default for scipy.
-
-To install pyFFTW:
-
-```bash
-pip install pyfftw
-```
+All functions in this module use the Fast Fourier Transform (FFT) via [pyFFTW](http://hgomersall.github.io/pyFFTW/), which provides Python bindings to the FFTW C library. This is substantially faster than scipy's default `fftpack` module and is now included as a required dependency.
 
 ## Authorship
 

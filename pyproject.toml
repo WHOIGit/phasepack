@@ -14,7 +14,8 @@ authors = [
 requires-python = ">=3.9"
 dependencies = [
     "numpy",
-    "scipy"
+    "scipy",
+    "pyfftw"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
