@@ -7,7 +7,7 @@ name = "phasepack"
 version = "1.5"
 description = "A toolkit for phase-based feature detection"
 readme = "README.md"
-license = {text = "MIT"}
+license = {file = "LICENSE"}
 authors = [
     {name = "Alistair Muldal", email = "alistair.muldal@pharm.ox.ac.uk"}
 ]
