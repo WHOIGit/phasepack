@@ -22,10 +22,6 @@ For more information on a particular function, see the associated docstring and 
 pip install phasepack
 ```
 
-## Fast Fourier Transforms
-
-All functions in this module use the Fast Fourier Transform (FFT) via [pyFFTW](http://hgomersall.github.io/pyFFTW/), which provides Python bindings to the FFTW C library. This is substantially faster than scipy's default `fftpack` module and is now included as a required dependency.
-
 ## Authorship
 
 These functions were originally written for MATLAB by Peter Kovesi, and were ported to Python by Alistair Muldal. The original MATLAB code, as well as further explanatory information and references are available from [Peter Kovesi's website](http://www.csse.uwa.edu.au/~pk/Research/MatlabFns/index.html#phasecong).
