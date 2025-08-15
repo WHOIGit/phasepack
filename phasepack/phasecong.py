@@ -29,7 +29,8 @@ from .tools import fft2, ifft2
 
 
 def phasecong(img, nscale=5, norient=6, minWaveLength=3, mult=2.1,
-              sigmaOnf=0.55, k=2., cutOff=0.5, g=10., noiseMethod=-1):
+              sigmaOnf=0.55, k=2., cutOff=0.5, g=10., noiseMethod=-1,
+              covariance_only=False):
     """
     Function for computing phase congruency on an image. This is a contrast-
     invariant edge and corner detector.
@@ -60,25 +61,34 @@ def phasecong(img, nscale=5, norient=6, minWaveLength=3, mult=2.1,
                             -1 use median of smallest scale filter responses
                             -2 use mode of smallest scale filter responses
                             >=0 use this value as the fixed noise threshold
+    covariance_only False   If True, only compute and return M and m (covariance
+                            moments). This provides significant speedup when
+                            orientation maps, phase congruency maps, and filter
+                            responses are not needed.
 
     Returns:
     ---------
-    M       Maximum moment of phase congruency covariance, which can be used as
-            a measure of edge strength
-    m       Minimum moment of phase congruency covariance, which can be used as
-            a measure of corner strength
-    ori     Orientation image, in integer degrees (0-180), positive angles
-            anti-clockwise.
-    ft      Local weighted mean phase angle at every point in the image. A
-            value of pi/2 corresponds to a bright line, 0 to a step and -pi/2
-            to a dark line.
-    PC      A list of phase congruency images (values between 0 and 1), one per
-            orientation.
-    EO      A list containing the complex-valued convolution results (see
-            below)
-    T       Calculated noise threshold (can be useful for diagnosing noise
-            characteristics of images). Once you know this you can then specify
-            fixed thresholds and save some computation time.
+    When covariance_only=False (default):
+        M       Maximum moment of phase congruency covariance, which can be used as
+                a measure of edge strength
+        m       Minimum moment of phase congruency covariance, which can be used as
+                a measure of corner strength
+        ori     Orientation image, in integer degrees (0-180), positive angles
+                anti-clockwise.
+        ft      Local weighted mean phase angle at every point in the image. A
+                value of pi/2 corresponds to a bright line, 0 to a step and -pi/2
+                to a dark line.
+        PC      A list of phase congruency images (values between 0 and 1), one per
+                orientation.
+        EO      A list containing the complex-valued convolution results (see
+                below)
+        T       Calculated noise threshold (can be useful for diagnosing noise
+                characteristics of images). Once you know this you can then specify
+                fixed thresholds and save some computation time.
+    
+    When covariance_only=True:
+        M       Maximum moment of phase congruency covariance
+        m       Minimum moment of phase congruency covariance
 
     EO is a list of sublists, where an entry in the outer list corresponds to
     a spatial scale, and an entry in the sublist corresponds to an orientation,
@@ -423,6 +433,10 @@ def phasecong(img, nscale=5, norient=6, minWaveLength=3, mult=2.1,
     # Maximum and minimum moments
     M = (covx2 + covy2 + denom) / 2.
     m = (covx2 + covy2 - denom) / 2.
+
+    # Early return for covariance-only mode (significant speedup)
+    if covariance_only:
+        return M, m
 
     # Orientation and feature phase/type
     ori = np.arctan2(EnergyV[:, :, 2], EnergyV[:, :, 1])
